@@ -1,0 +1,238 @@
+# Credit Risk Probability Model for Alternative Data
+
+## Interim Report – Week 4 Challenge
+
+**Prepared by:** Frida N.
+**Project:** Credit Risk Probability Model for Alternative Data
+**Institution:** 10 Academy – Artificial Intelligence Mastery Program
+**Submission:** Interim Report (Tasks 1 & 2)
+**Date:** June 2026
+
+---
+
+# 1. Executive Summary
+
+This project focuses on developing an end-to-end credit risk scoring solution for Bati Bank to support a Buy-Now-Pay-Later (BNPL) service in partnership with an eCommerce platform. The primary challenge is the absence of a direct default label within the available transaction dataset. To address this limitation, the project will employ behavioral analytics techniques, specifically Recency, Frequency, and Monetary (RFM) analysis, to construct a proxy target variable that represents customer credit risk.
+
+The interim phase concentrated on establishing the business understanding of the credit scoring problem and conducting Exploratory Data Analysis (EDA) on the Xente transaction dataset. The analysis examined data quality, transaction patterns, customer behavior indicators, feature distributions, outliers, and relationships among variables. Findings from this phase provide the foundation for subsequent feature engineering, customer segmentation, risk labeling, and predictive model development.
+
+---
+
+# 2. Business Understanding
+
+## 2.1 Background
+
+Bati Bank intends to introduce a BNPL service that enables customers to purchase goods and services on credit. To support responsible lending decisions, the bank requires a data-driven mechanism capable of estimating the probability of customer default.
+
+Traditional credit scoring systems rely heavily on historical credit records and loan repayment behavior. However, many customers in emerging markets have limited formal credit histories. As a result, alternative data sources such as transaction records, purchase behavior, and digital financial activity are increasingly used to assess creditworthiness.
+
+The objective of this project is to leverage transaction-level data from the Xente eCommerce platform to build a machine learning-based credit risk model capable of estimating customer risk probabilities and supporting lending decisions.
+
+---
+
+## 2.2 Basel II Considerations
+
+The Basel II Capital Accord emphasizes sound risk measurement, transparency, documentation, and regulatory compliance in credit risk management.
+
+These principles influence the project in several ways:
+
+* Model development must be transparent and explainable.
+* Feature engineering and data transformations must be documented and reproducible.
+* Model outputs should be interpretable by risk managers and regulators.
+* Evaluation metrics and validation procedures must be clearly reported.
+* Ongoing monitoring and governance should be supported throughout the model lifecycle.
+
+Consequently, model performance will be evaluated alongside interpretability and regulatory suitability.
+
+---
+
+## 2.3 Proxy Target Variable Challenge
+
+The available dataset does not contain a direct indicator of customer default. Since supervised machine learning models require labeled outcomes, a proxy target variable must be developed.
+
+The project will utilize Recency, Frequency, and Monetary (RFM) analysis to characterize customer engagement levels. Customers demonstrating low transaction frequency, low transaction value, and prolonged inactivity will be identified through clustering techniques and classified as higher-risk customers.
+
+While this approach enables model development, it introduces uncertainty because behavioral disengagement is not equivalent to actual loan default. Therefore, all results must be interpreted within the context of a proxy-based risk estimation framework.
+
+---
+
+# 3. Dataset Overview
+
+The dataset consists of transaction-level records collected from the Xente eCommerce platform.
+
+Each observation represents an individual customer transaction and includes:
+
+* Customer identifiers
+* Account information
+* Product information
+* Transaction amounts
+* Transaction timestamps
+* Service channels
+* Pricing strategies
+* Fraud indicators
+
+The dataset serves as the primary source for understanding customer transactional behavior and constructing risk-related features.
+
+---
+
+# 4. Exploratory Data Analysis (EDA)
+
+## 4.1 Data Quality Assessment
+
+The initial assessment focused on dataset completeness and structure.
+
+Key findings include:
+
+* No missing values were detected across all variables.
+* Data types were appropriately structured for further processing.
+* Transaction records were sufficiently detailed to support feature engineering activities.
+
+The absence of missing data significantly simplifies downstream preprocessing requirements.
+
+---
+
+## 4.2 Distribution of Numerical Features
+
+The numerical variables Amount and Value were analyzed using histograms and distribution plots.
+
+Findings revealed:
+
+* Strong positive skewness in both variables.
+* A large concentration of transactions around relatively small values.
+* A small number of extremely high-value transactions.
+
+This distribution suggests that customer spending behavior is highly uneven and that scaling techniques will likely be necessary during model development.
+
+---
+
+## 4.3 Outlier Analysis
+
+Boxplot visualizations identified substantial outliers within both Amount and Value.
+
+Rather than representing data quality issues, these observations likely correspond to legitimate high-value transactions occurring on the platform.
+
+These outliers will be handled through appropriate scaling and transformation techniques during feature engineering rather than immediate removal.
+
+---
+
+## 4.4 Product Category Analysis
+
+Transaction activity is heavily concentrated in a small number of product categories.
+
+The most frequently used categories are:
+
+| Product Category   | Transactions |
+| ------------------ | ------------ |
+| Financial Services | 45,405       |
+| Airtime            | 45,027       |
+
+Together, these categories account for the vast majority of platform activity.
+
+This suggests that customer engagement is primarily driven by financial transactions and airtime purchases.
+
+---
+
+## 4.5 Provider Analysis
+
+Transaction volume is concentrated among a few service providers.
+
+The most active providers are:
+
+* ProviderId_4
+* ProviderId_6
+* ProviderId_5
+
+This concentration may influence transaction behavior patterns and could contribute predictive value during model training.
+
+---
+
+## 4.6 Transaction Channel Analysis
+
+Analysis of transaction channels revealed that:
+
+* ChannelId_3 and ChannelId_2 account for most platform activity.
+* Other channels represent only a small fraction of transactions.
+
+This indicates strong customer preference for specific transaction channels and suggests that channel behavior may serve as a useful predictive feature.
+
+---
+
+## 4.7 Correlation Analysis
+
+Correlation analysis revealed several notable relationships.
+
+The strongest relationship observed was:
+
+* Amount and Value: 0.99 correlation
+
+This indicates that both variables capture nearly identical information and may introduce redundancy during model training.
+
+A moderate positive relationship was also observed between transaction size and fraud indicators, suggesting that larger transactions may be associated with increased fraud detection activity.
+
+---
+
+# 5. Key Insights
+
+The following insights emerged from the exploratory analysis:
+
+1. The dataset exhibits excellent data quality with no missing values.
+2. Transaction values are highly skewed and dominated by small-value transactions.
+3. Significant outliers exist within financial transaction amounts.
+4. Platform activity is concentrated within Financial Services and Airtime categories.
+5. Transaction channel usage is highly uneven, with two channels dominating activity.
+6. Amount and Value demonstrate near-perfect correlation and may require dimensionality reduction.
+7. Fraud indicators show moderate association with transaction size.
+
+---
+
+# 6. Challenges and Limitations
+
+Several limitations have been identified during the interim phase:
+
+* The dataset does not contain actual default outcomes.
+* The target variable must therefore be constructed using behavioral proxies.
+* Behavioral risk does not necessarily represent actual repayment behavior.
+* Transaction patterns may evolve over time, potentially affecting model stability.
+
+These limitations will be carefully considered during model development and evaluation.
+
+---
+
+# 7. Next Steps
+
+The remaining phases of the project will focus on:
+
+### Task 3: Feature Engineering
+
+* Aggregate customer-level transaction metrics
+* Extract temporal features
+* Encode categorical variables
+* Standardize numerical features
+* Implement Weight of Evidence (WoE) transformations
+
+### Task 4: Proxy Target Variable Engineering
+
+* Calculate RFM metrics
+* Perform customer segmentation using K-Means clustering
+* Identify high-risk customer groups
+* Generate the binary risk target variable
+
+### Task 5: Model Development
+
+* Train multiple classification models
+* Perform hyperparameter tuning
+* Track experiments using MLflow
+* Evaluate performance using ROC-AUC, Precision, Recall, F1 Score, and Accuracy
+
+### Task 6: Deployment and Automation
+
+* Build a FastAPI prediction service
+* Containerize the application using Docker
+* Implement CI/CD pipelines using GitHub Actions
+* Deploy and validate the end-to-end solution
+
+---
+
+# Conclusion
+
+The interim phase successfully established the business context and analytical foundation for the credit risk modeling project. Exploratory analysis provided valuable insights into customer transaction behavior, data quality, feature distributions, and potential predictive signals. These findings will guide the development of a robust, reproducible, and business-aligned credit scoring solution in the subsequent phases of the project.
