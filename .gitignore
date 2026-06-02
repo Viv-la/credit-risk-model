@@ -1,0 +1,7 @@
+data/raw/
+data/processed/
+src/__pycache__/
+__pycache__/
+*.pyc
+venv/
+mlruns/
